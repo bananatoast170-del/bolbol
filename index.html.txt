@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>הכפתור של כולם</title>
+    <!-- שימוש ב-Tailwind CSS לעיצוב מהיר ומודרני -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Assistant', sans-serif;
+        }
+
+        .click-animation {
+            transition: transform 0.1s ease;
+        }
+        
+        .click-animation:active {
+            transform: scale(0.9);
+        }
+
+        /* אפקט הילה לכפתור */
+        .glow-button {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 text-center border border-slate-100">
+        <h1 class="text-3xl font-bold text-slate-800 mb-2">האתר הפשוט שלי</h1>
+        <p class="text-slate-500 mb-8">כל לחיצה נחשבת!</p>
+
+        <!-- תצוגת המונה -->
+        <div class="mb-8">
+            <span id="counter" class="text-7xl font-black text-blue-600 transition-all duration-300 inline-block">0</span>
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-widest mt-2">לחיצות עד כה</div>
+        </div>
+
+        <!-- הכפתור הראשי -->
+        <button id="clickBtn" class="click-animation glow-button w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-6 rounded-2xl text-2xl shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300">
+            תלחצו עליי! 🚀
+        </button>
+
+        <div class="mt-12 pt-6 border-t border-slate-50">
+            <p class="text-sm text-slate-400">
+                נוצר כדוגמה ל-GitHub
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // אתחול המשתנים
+        let count = 0;
+        const counterElement = document.getElementById('counter');
+        const button = document.getElementById('clickBtn');
+
+        // פונקציה לעדכון המונה
+        function updateCounter() {
+            count++;
+            counterElement.innerText = count;
+            
+            // הוספת אנימציה קטנה למספר בכל לחיצה
+            counterElement.classList.add('scale-110');
+            setTimeout(() => {
+                counterElement.classList.remove('scale-110');
+            }, 100);
+        }
+
+        // האזנה ללחיצות (עובד גם בעכבר וגם במגע בטלפון)
+        button.addEventListener('click', updateCounter);
+
+        // בונוס: שמירה מקומית (LocalStorage) כדי שהמספר לא יתאפס ברענון הדף אצל המשתמש
+        // הערה: כדי שכל העולם יראה את אותו מספר בדיוק, צריך בסיס נתונים (Backend).
+        window.onload = () => {
+            const savedCount = localStorage.getItem('myClickCount');
+            if (savedCount) {
+                count = parseInt(savedCount);
+                counterElement.innerText = count;
+            }
+        };
+
+        button.addEventListener('click', () => {
+            localStorage.setItem('myClickCount', count);
+        });
+    </script>
+</body>
+</html>
